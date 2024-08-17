@@ -1,0 +1,48 @@
+{
+	"$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+	"checkers": [
+		"typescript"
+	],
+	"coverageAnalysis": "perTest",
+	"ignorers": [
+		"constructor",
+		"this.logger"
+	],
+	"ignoreStatic": true,
+	"incremental": true,
+	"mochaOptions": {
+		"require": [
+			"ts-node/register"
+		],
+		"spec": [
+			"./test/**/*.spec.ts"
+		]
+	},
+	"mutate": [
+		"!src/**/*.config.ts",
+		"!src/**/*.spec.ts",
+		"!src/main.ts",
+		"src/**/*.ts"
+	],
+	"mutator": {
+		"excludedMutations": [
+			"OptionalChaining"
+		]
+	},
+	"plugins": [
+		"./stryker-ignorer.mjs",
+		"@stryker-mutator/*"
+	],
+	"reporters": [
+		"clear-text",
+		"html",
+		"json",
+		"progress"
+	],
+	"testRunner": "mocha",
+	"timeoutMS": 5000,
+	"tsconfigFile": "tsconfig.json",
+	"typescriptChecker": {
+		"prioritizePerformanceOverAccuracy": true
+	}
+}

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { WaitlistController } from './adapter/controller/waitlist.controller';
+import { EnvironmentConfig } from '../configs/environment.config';
+import { WaitlistHttpController } from './adapter/controller/waitlist.http.controller';
 import { WaitlistService } from './domain/service/waitlist.service';
 
 @Module({
-  controllers: [WaitlistController],
-  providers: [WaitlistService],
+  controllers: [WaitlistHttpController],
+  providers: [WaitlistService, EnvironmentConfig],
 })
 export class WaitlistModule {}
