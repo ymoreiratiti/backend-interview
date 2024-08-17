@@ -1,5 +1,5 @@
-import { ParameterEntity } from '../entity/parameter.entity';
-import { PatientEntity } from '../entity/patient.entity';
+import { ParameterEntity } from '../entities/parameter.entity';
+import { PatientEntity } from '../entities/patient.entity';
 
 export interface IDatabaseRepository {
   getParameters(): Promise<ParameterEntity>;

@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LocationModel } from '../../domain/models/location.model';
-import { WaitlistService } from '../../domain/service/waitlist.service';
+import { WaitlistService } from '../../domain/services/waitlist.service';
 import { CoordinatesDto } from './coordinates.dto';
 
 @Controller('waitlist')

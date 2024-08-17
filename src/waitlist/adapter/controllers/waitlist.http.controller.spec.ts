@@ -1,5 +1,5 @@
 import { TestBed } from '@automock/jest';
-import { WaitlistService } from '../../domain/service/waitlist.service';
+import { WaitlistService } from '../../domain/services/waitlist.service';
 import { CoordinatesDto } from './coordinates.dto';
 import { WaitlistHttpController } from './waitlist.http.controller';
 
@@ -26,13 +26,13 @@ describe(WaitlistHttpController.name, () => {
         latitude: 48.712,
         longitude: -60.117,
       };
-      waitlistService.getWaitlist.mockResolvedValueOnce('ANY_VALUE');
+      waitlistService.getWaitlist.mockResolvedValueOnce([]);
 
       //  Act
       const actual = await sut.getWaitlist(queryParameters);
 
       //  Assert
-      expect(actual).toBe('ANY_VALUE');
+      expect(actual).toStrictEqual([]);
       expect(waitlistService.getWaitlist).toHaveBeenCalled();
     });
   });

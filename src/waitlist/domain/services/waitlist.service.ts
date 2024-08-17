@@ -2,6 +2,7 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import * as _ from 'lodash';
 import { DI_DATABASE_REPOSITORY } from '../../../configs/container-names';
+import { ParameterEntity } from '../entities/parameter.entity';
 import { calculateWeight } from '../helpers/calculate-weight.helper';
 import { distanceBetweenCoordinates } from '../helpers/distance-between-coordinates.helper';
 import { getDatasetMinMaxValues } from '../helpers/get-dataset-min-max-values.helper';
@@ -9,17 +10,14 @@ import { Normalization } from '../helpers/normalization.helper';
 import { IDatabaseRepository } from '../interfaces/idatabase.repository';
 import { LocationModel } from '../models/location.model';
 import { PatientResponseModel } from '../models/patient-response.model';
-import { type WeightParameterConfig } from '../types/config.type';
 import { DatasetMinMaxValues } from '../types/dataset-min-max-values.type';
 import { type PatientFacilityModel } from '../types/patient-facility.type';
 
 @Injectable({ scope: Scope.REQUEST })
 export class WaitlistService {
   private dataset: PatientFacilityModel[];
-  public weightParameter: WeightParameterConfig;
-  public resultLimitParameter: number;
-  public usersFromPatientsWithInsufficientBehaviorDataLimit: number;
-  public datasetMinMaxValues!: DatasetMinMaxValues;
+  private parameters: ParameterEntity;
+  private datasetMinMaxValues!: DatasetMinMaxValues;
 
   constructor(@Inject(DI_DATABASE_REPOSITORY) private readonly databaseRepository: IDatabaseRepository) {}
 
@@ -37,11 +35,7 @@ export class WaitlistService {
 
   private async loadDatabase() {
     this.dataset = await this.databaseRepository.getPatientWaitlist();
-    const parameters = await this.databaseRepository.getParameters();
-    this.weightParameter = parameters.weightParameter;
-    this.resultLimitParameter = parameters.resultLimitParameter;
-    this.usersFromPatientsWithInsufficientBehaviorDataLimit =
-      parameters.usersFromPatientsWithInsufficientBehaviorDataLimit;
+    this.parameters = await this.databaseRepository.getParameters();
   }
 
   /**
@@ -91,11 +85,11 @@ export class WaitlistService {
     for (const patient of this.dataset) {
       const score: number =
         0 +
-        calculateWeight(patient.ageNormalize!, this.weightParameter.age) +
-        calculateWeight(patient.distanceToFacilityNormalize!, this.weightParameter.distanceToFacility) +
-        calculateWeight(patient.acceptedOffersNormalize!, this.weightParameter.acceptedOffers) +
-        calculateWeight(patient.canceledOffersNormalize!, this.weightParameter.canceledOffers) +
-        calculateWeight(patient.averageReplyTimeNormalize!, this.weightParameter.averageReplyTime);
+        calculateWeight(patient.ageNormalize!, this.parameters.weightParameter.age) +
+        calculateWeight(patient.distanceToFacilityNormalize!, this.parameters.weightParameter.distanceToFacility) +
+        calculateWeight(patient.acceptedOffersNormalize!, this.parameters.weightParameter.acceptedOffers) +
+        calculateWeight(patient.canceledOffersNormalize!, this.parameters.weightParameter.canceledOffers) +
+        calculateWeight(patient.averageReplyTimeNormalize!, this.parameters.weightParameter.averageReplyTime);
 
       patient.score = score / 10;
     }
@@ -111,14 +105,14 @@ export class WaitlistService {
     //  Sort the dataset to identify users with the fewer behavior data points
     const insufficientBehaviorDataList: PatientFacilityModel[] = this.dataset
       .sort((a, b) => a.totalOffers! - b.totalOffers!)
-      .slice(0, this.usersFromPatientsWithInsufficientBehaviorDataLimit);
+      .slice(0, this.parameters.usersFromPatientsWithInsufficientBehaviorDataLimit);
 
     //  Sort the dataset to identify users with the highest scores
-    const scoreList = this.dataset.sort((a, b) => b.score! - a.score!).slice(0, this.resultLimitParameter);
+    const scoreList = this.dataset.sort((a, b) => b.score! - a.score!).slice(0, this.parameters.resultLimitParameter);
 
     return _([...insufficientBehaviorDataList, ...scoreList])
       .uniqBy('id')
-      .slice(0, this.resultLimitParameter)
+      .slice(0, this.parameters.resultLimitParameter)
       .sort((a, b) => b.score! - a.score!)
       .map((row) => plainToClass(PatientResponseModel, row))
       .value();

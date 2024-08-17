@@ -1,4 +1,4 @@
-import { PatientEntity } from '../entity/patient.entity';
+import { PatientEntity } from '../entities/patient.entity';
 
 export type PatientFacilityModel = {
   distanceToFacility?: number;

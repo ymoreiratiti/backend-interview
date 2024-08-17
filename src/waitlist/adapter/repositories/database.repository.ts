@@ -1,10 +1,11 @@
 import { Logger } from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
 import { transformAndValidateSync } from 'class-transformer-validator';
 import { random } from 'lodash';
 import * as patients from '../../../../sample-data/patients.json';
-import { ParameterEntity } from '../../domain/entity/parameter.entity';
-import { PatientEntity } from '../../domain/entity/patient.entity';
-import { InvalidDatasetException } from '../../domain/exception/invalid-dataset.exception';
+import { ParameterEntity } from '../../domain/entities/parameter.entity';
+import { PatientEntity } from '../../domain/entities/patient.entity';
+import { InvalidDatasetException } from '../../domain/exceptions/invalid-dataset.exception';
 import { IDatabaseRepository } from '../../domain/interfaces/idatabase.repository';
 
 /**
@@ -14,9 +15,11 @@ import { IDatabaseRepository } from '../../domain/interfaces/idatabase.repositor
 export class DatabaseRepository implements IDatabaseRepository {
   private readonly logger = new Logger(DatabaseRepository.name);
 
+  constructor(private readonly dataset = patients) {}
+
   public async getPatientWaitlist(): Promise<PatientEntity[]> {
     try {
-      const result = transformAndValidateSync(PatientEntity, patients);
+      const result = transformAndValidateSync(PatientEntity, this.dataset);
       return result;
     } catch {
       this.logger.error("Invalid dataset. Please check the sample data file 'patients.json'.");
@@ -29,7 +32,7 @@ export class DatabaseRepository implements IDatabaseRepository {
    * @returns
    */
   public async getParameters(): Promise<ParameterEntity> {
-    const result: ParameterEntity = {
+    const result = plainToClass(ParameterEntity, {
       resultLimitParameter: 10,
       usersFromPatientsWithInsufficientBehaviorDataLimit: random(0, 10),
       weightParameter: {
@@ -39,7 +42,7 @@ export class DatabaseRepository implements IDatabaseRepository {
         canceledOffers: { percentage: 30, correlation: 1 }, //  30% Weight
         averageReplyTime: { percentage: 20, correlation: 1 }, //  20% Weight
       },
-    };
+    });
 
     return result;
   }
