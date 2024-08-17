@@ -1,5 +1,6 @@
 import { Controller, Get, HttpStatus, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LocationModel } from '../../domain/models/location.model';
 import { WaitlistService } from '../../domain/service/waitlist.service';
 import { CoordinatesDto } from './coordinates.dto';
 
@@ -16,6 +17,11 @@ export class WaitlistHttpController {
   @ApiQuery({ name: 'latitude', type: Number, description: 'Latitude of the location facility', required: true })
   @UsePipes(new ValidationPipe({ transform: true, forbidUnknownValues: true })) // Enables validation and transformation
   async getWaitlist(@Query() coordinates: CoordinatesDto) {
-    return this.waitlistService.getWaitlist(coordinates);
+    const command: LocationModel = {
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude,
+    };
+
+    return this.waitlistService.getWaitlist(command);
   }
 }

@@ -3,6 +3,24 @@
   "configurations": [
     {
       "type": "node",
+      "name": "Debug Test",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "args": [
+        "test",
+        "--run-in-band",
+        "--watch-all=false",
+        "--test-name-pattern",
+        "${jest.testNamePattern}",
+        "--test-path-pattern",
+        "${jest.testFilePattern}"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Debug Nest Framework",
       "args": [
@@ -21,14 +39,5 @@
       "console": "integratedTerminal",
       "protocol": "inspector"
     },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Mocha Tests",
-      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": "--inspect-brk --timeout 0 --require ts-node/register './test/**/*.spec.ts'",
-      "cwd": "${workspaceRoot}",
-      "console": "integratedTerminal"
-    }
   ]
 }

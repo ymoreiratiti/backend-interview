@@ -18,5 +18,11 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "typescript.preferences.importModuleSpecifier": "project-relative"
+  },
+  "testing.openTesting": "neverOpen",
+  "jest.outputConfig": {
+    "revealOn": "run",
+    "revealWithFocus": "none",
+    "clearOnRun": "none"
   }
 }
