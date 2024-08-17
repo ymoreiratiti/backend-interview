@@ -10,14 +10,7 @@
 	],
 	"ignoreStatic": true,
 	"incremental": true,
-	"mochaOptions": {
-		"require": [
-			"ts-node/register"
-		],
-		"spec": [
-			"./test/**/*.spec.ts"
-		]
-	},
+	"jest": {},
 	"mutate": [
 		"!src/**/*.config.ts",
 		"!src/**/*.spec.ts",
@@ -39,7 +32,7 @@
 		"json",
 		"progress"
 	],
-	"testRunner": "mocha",
+	"testRunner": "jest",
 	"timeoutMS": 5000,
 	"tsconfigFile": "tsconfig.json",
 	"typescriptChecker": {
