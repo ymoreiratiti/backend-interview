@@ -3,7 +3,7 @@ import { WaitlistService } from '../../domain/service/waitlist.service';
 import { CoordinatesDto } from './coordinates.dto';
 import { WaitlistHttpController } from './waitlist.http.controller';
 
-describe.only(WaitlistHttpController.name, () => {
+describe(WaitlistHttpController.name, () => {
   let sut: WaitlistHttpController;
   let waitlistService: jest.Mocked<WaitlistService>;
 
