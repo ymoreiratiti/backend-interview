@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-interview
+    container_name: backend-interview
+    environment:
+      - PORT=${PORT:-3000}
+      - ENABLE_SWAGGER=${PORT:-true}
+    ports:
+      - '0.0.0.0:3000:3000'
+    volumes:
+      - ./src:/app/src
