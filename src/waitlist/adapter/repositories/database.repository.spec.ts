@@ -65,6 +65,17 @@ describe(DatabaseRepository.name, () => {
       //  Assert
       expect(actual).toBeDefined();
       expect(actual).toBeInstanceOf(ParameterEntity);
+      expect(actual).toMatchObject({
+        resultLimitParameter: 10,
+        usersFromPatientsWithInsufficientBehaviorDataLimit: expect.any(Number),
+        weightParameter: {
+          age: { percentage: 10, correlation: 0 },
+          distanceToFacility: { percentage: 10, correlation: 1 },
+          acceptedOffers: { percentage: 30, correlation: 0 },
+          canceledOffers: { percentage: 30, correlation: 1 },
+          averageReplyTime: { percentage: 20, correlation: 1 },
+        },
+      });
     });
   });
 });

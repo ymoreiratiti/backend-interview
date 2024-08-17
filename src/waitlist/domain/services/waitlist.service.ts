@@ -108,7 +108,7 @@ export class WaitlistService {
       .slice(0, this.parameters.usersFromPatientsWithInsufficientBehaviorDataLimit);
 
     //  Sort the dataset to identify users with the highest scores
-    const scoreList = this.dataset.sort((a, b) => b.score! - a.score!).slice(0, this.parameters.resultLimitParameter);
+    const scoreList = this.dataset.sort((a, b) => b.score! - a.score!);
 
     return _([...insufficientBehaviorDataList, ...scoreList])
       .uniqBy('id')

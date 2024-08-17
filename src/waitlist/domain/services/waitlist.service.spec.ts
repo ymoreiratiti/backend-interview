@@ -82,17 +82,17 @@ describe(WaitlistService.name, () => {
     expect(actual[0]).toBeInstanceOf(PatientResponseModel);
 
     //  These are the 7 patients with Higher Score
-    expect(actual[0].name).toBe('Tamara Roberts');
-    expect(actual[1].name).toBe('Adeline Corwin');
-    expect(actual[2].name).toBe('Miss Frida Harris');
-    expect(actual[3].name).toBe('Laurine Kshlerin');
-    expect(actual[4].name).toBe('Jess Deckow');
-    expect(actual[5].name).toBe('Ms. Damien Ziemann');
-    expect(actual[6].name).toBe('Mrs. Jaquan Lemke');
+    expect(actual[0]).toMatchObject({ name: 'Tamara Roberts', score: 8.841_299_772_195_864 });
+    expect(actual[1]).toMatchObject({ name: 'Adeline Corwin', score: 8.795_227_701_156_842 });
+    expect(actual[2]).toMatchObject({ name: 'Miss Frida Harris', score: 8.504_282_050_048_07 });
+    expect(actual[3]).toMatchObject({ name: 'Laurine Kshlerin', score: 8.266_908_346_750_974 });
+    expect(actual[4]).toMatchObject({ name: 'Jess Deckow', score: 8.202_908_194_187_078 });
+    expect(actual[5]).toMatchObject({ name: 'Ms. Damien Ziemann', score: 8.128_320_806_106_737 });
+    expect(actual[6]).toMatchObject({ name: 'Mrs. Jaquan Lemke', score: 8.121_941_754_496_556 });
 
     //  These are the 3 patients with insufficient behavior data
-    expect(actual[7].name).toBe('Dina Orn');
-    expect(actual[8].name).toBe('Etha Bauch');
-    expect(actual[9].name).toBe('Arnold Krajcik');
+    expect(actual[7]).toMatchObject({ name: 'Dina Orn', score: 5.353_516_530_659_789 });
+    expect(actual[8]).toMatchObject({ name: 'Etha Bauch', score: 5.171_177_089_515_895 });
+    expect(actual[9]).toMatchObject({ name: 'Arnold Krajcik', score: 4.297_176_493_591_225 });
   });
 });
