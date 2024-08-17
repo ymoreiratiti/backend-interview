@@ -1,5 +1,5 @@
-import type {DatasetMinMaxValues} from '../types/dataset-min-max-values.type';
-import type {PatientFacilityModel} from '../types/patient-facility.type';
+import type { DatasetMinMaxValues } from '../types/dataset-min-max-values.type';
+import type { PatientFacilityModel } from '../types/patient-facility.type';
 
 /**
  * Loop through the dataset and get the min and max values for each column
@@ -9,11 +9,11 @@ import type {PatientFacilityModel} from '../types/patient-facility.type';
  */
 export function getDatasetMinMaxValues(dataset: PatientFacilityModel[]): DatasetMinMaxValues {
   const datasetArray = {
-    age: dataset.map(row => row.age),
-    distanceToFacility: dataset.map(row => row.distanceToFacility!),
-    acceptedOffers: dataset.map(row => row.acceptedOffers),
-    canceledOffers: dataset.map(row => row.canceledOffers),
-    averageReplyTime: dataset.map(row => row.averageReplyTime),
+    age: dataset.map((row) => row.age),
+    distanceToFacility: dataset.map((row) => row.distanceToFacility!),
+    acceptedOffers: dataset.map((row) => row.acceptedOffers),
+    canceledOffers: dataset.map((row) => row.canceledOffers),
+    averageReplyTime: dataset.map((row) => row.averageReplyTime),
   };
 
   const datasetMinMaxValues: DatasetMinMaxValues = {

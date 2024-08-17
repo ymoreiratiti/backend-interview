@@ -1,4 +1,4 @@
-import {type LocationModel} from '../models/location.model';
+import { type LocationModel } from '../models/location.model';
 
 /**
  * We could use something like Haversine formula to calculate the distance between the two points, but is almost
@@ -17,5 +17,5 @@ export function distanceBetweenCoordinates(locationA: LocationModel, locationB: 
   const x1 = Number(locationA.longitude);
   const x2 = Number(locationB.longitude);
 
-  return Math.hypot((x2 - x1), (y2 - y1));
+  return Math.hypot(x2 - x1, y2 - y1);
 }
